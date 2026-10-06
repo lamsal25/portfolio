@@ -1,0 +1,23 @@
+{
+  "name": "govinda-portfolio-local",
+  "main": "src/server.ts",
+  "compatibility_date": "2025-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./next/out",
+    "binding": "ASSETS",
+    "not_found_handling": "none"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "govinda-portfolio-local",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "HF_ENV": "dev",
+    "APP_SLUG": "govinda-portfolio-local"
+  }
+}

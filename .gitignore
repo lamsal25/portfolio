@@ -1,0 +1,17 @@
+node_modules
+
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+*.log
+
+/app/public/index.html
+/app/public/_next/
+/app/public/admin/
+/app/public/dashboard/
+/app/public/404*
+/app/public/robots.txt
+/app/public/*.txt
+/app/public/*.html
+/app/public/sitemap.xml

@@ -1,0 +1,445 @@
+{
+  "name": "Govinda Lamsal",
+  "title": "Cloud Solution Architect, Full-stack Developer & Cloud Trainer.",
+  "location": "Kathmandu, Nepal",
+  "tagline": "Turning ambitious ideas into scalable, data-driven digital solutions.",
+  "about": [
+    "I design the cloud behind the product, build the experience in front of it, and help others understand how it all works.",
+    "As a Cloud Solution Architect at TekBay Academy, I bring together AWS cloud architecture, full-stack development and data science to create scalable, data-driven digital solutions with real-world impact.",
+    "My approach connects hands-on engineering with clear communication: translate a business need into an architecture, turn that architecture into a useful product, and make the knowledge accessible through practical cloud training."
+  ],
+  "email": "lamsalgovinda25@gmail.com",
+  "phone": "9841056120",
+  "github": "https://github.com/lamsal25",
+  "linkedin": "https://www.linkedin.com/in/lamsal25/",
+  "domains": [
+    {
+      "name": "Cloud",
+      "level": "Teaching & hands-on projects",
+      "skills": [
+        "AWS Solution Architecture",
+        "EC2",
+        "S3",
+        "VPC",
+        "ALB / ELB",
+        "Auto Scaling",
+        "RDS",
+        "DynamoDB",
+        "Lambda",
+        "CloudFront",
+        "CloudWatch",
+        "IAM",
+        "Rekognition",
+        "CloudFormation",
+        "Terraform",
+        "GitHub Actions",
+        "Infrastructure as Code",
+        "Cloud Networking",
+        "Cloud Security"
+      ]
+    },
+    {
+      "name": "Frontend",
+      "level": "Applied in development projects",
+      "skills": [
+        "HTML",
+        "CSS",
+        "Bootstrap",
+        "jQuery",
+        "JavaScript",
+        "Next.js",
+        "React",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "React Hook Form",
+        "Zod",
+        "Axios",
+        "Keen Slider",
+        "Framer Motion",
+        "React Toastify",
+        "Responsive Design"
+      ]
+    },
+    {
+      "name": "Backend",
+      "level": "Applied in development projects",
+      "skills": [
+        "Python",
+        "Django",
+        "Django REST Framework",
+        "Node.js",
+        "Express",
+        "REST APIs",
+        "JWT Authentication",
+        "SimpleJWT",
+        "dj-rest-auth",
+        "Django Allauth",
+        "Google OAuth",
+        "eSewa Integration",
+        "Khalti Integration",
+        "PDF Generation"
+      ]
+    },
+    {
+      "name": "Data & AI",
+      "level": "Project experience & foundational learning",
+      "skills": [
+        "PostgreSQL",
+        "Supabase",
+        "Supabase Storage",
+        "MongoDB Atlas",
+        "Power BI",
+        "scikit-learn",
+        "NVIDIA AI Infrastructure",
+        "SageMaker",
+        "Image Processing"
+      ]
+    },
+    {
+      "name": "Tools & Teaching",
+      "level": "Applied in projects, design & training",
+      "skills": [
+        "Git",
+        "GitHub",
+        "Figma",
+        "n8n",
+        "Automation",
+        "Cloud Training",
+        "Technical Presentations",
+        "Curriculum Design",
+        "Technical Documentation",
+        "Manual Testing",
+        "Project Planning",
+        "Digital Marketing"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "DCart",
+      "kind": "Internship project",
+      "art": "Multi-vendor commerce",
+      "description": "An eCommerce platform connecting vendors, shoppers and platform administrators.",
+      "tags": ["Next.js", "Django REST", "PostgreSQL", "Supabase"],
+      "points": [
+        "Built homepage and product/category experiences with responsive forms and product images.",
+        "Developed vendor and user dashboard features, reviews, vendor replies and advertisements.",
+        "Worked on eSewa and Khalti payments, order receipt PDFs, sales reporting and reward points."
+      ],
+      "link": null
+    },
+    {
+      "name": "Three-tier AWS application",
+      "kind": "Cloud lab project",
+      "art": "Network & infrastructure",
+      "description": "A practical AWS architecture separating the public entry point, application layer and database.",
+      "tags": ["ALB", "EC2", "VPC", "RDS"],
+      "points": [
+        "Application Load Balancer provides the application entry point.",
+        "EC2 application instances run in private subnets.",
+        "RDS database is isolated from direct public access."
+      ],
+      "link": null
+    },
+    {
+      "name": "Event-driven image converter",
+      "kind": "Completed cloud lab",
+      "art": "Upload → Convert → Store",
+      "description": "An automated pipeline that converts uploaded JPG images into PNG files.",
+      "tags": ["S3", "Lambda", "Python", "Pillow"],
+      "points": [
+        "Uploading a JPG to the source bucket invokes Lambda.",
+        "Python and Pillow process the image using a Lambda layer.",
+        "The resulting PNG is written to a separate destination bucket."
+      ],
+      "link": null
+    },
+    {
+      "name": "Serverless Task Manager",
+      "kind": "Cloud project work",
+      "art": "Serverless application",
+      "description": "A task management project designed around sandbox-compatible AWS services.",
+      "tags": ["Lambda Function URL", "DynamoDB", "S3", "CloudFront"],
+      "points": [
+        "Designed registration, login, sessions and task CRUD flows.",
+        "Used Lambda Function URLs where API Gateway was unavailable.",
+        "Explored CloudFormation automation and rotating sandbox credentials."
+      ],
+      "link": null
+    },
+    {
+      "name": "Image analysis pipeline",
+      "kind": "Cloud project work",
+      "art": "Upload & understand",
+      "description": "Browser-based image upload and analysis using AWS managed services.",
+      "tags": ["Rekognition", "S3", "Lambda", "DynamoDB"],
+      "points": [
+        "Browser upload flow uses presigned S3 URLs.",
+        "Rekognition provides image analysis, supported by a Lambda backend.",
+        "Worked through Function URL CORS configuration and project integration."
+      ],
+      "link": null
+    },
+    {
+      "name": "FlowGenic automation",
+      "kind": "Initiative & workflow projects",
+      "art": "Connect the workflow",
+      "description": "Development and automation work under FlowGenic Technologies.",
+      "tags": ["n8n", "JavaScript", "Chatbot", "Automation"],
+      "points": [
+        "Worked on an embeddable chatbot widget with isolated styling.",
+        "Explored pet shop chatbot workflows and passport expiry email automation.",
+        "Developed branding, web content and social communication plans."
+      ],
+      "link": null
+    },
+    {
+      "name": "Restaurant POS SaaS",
+      "kind": "System concept & documentation",
+      "art": "Order → Kitchen → Payment",
+      "description": "A planned subscription platform connecting QR ordering, kitchen operations and reception billing.",
+      "tags": ["System Design", "Role-based Access", "SaaS"],
+      "points": [
+        "Defined customer, kitchen, waiter, reception and superadmin roles.",
+        "Documented the QR ordering and payment workflow.",
+        "Planned subscription tiers and the product scope."
+      ],
+      "link": null
+    },
+    {
+      "name": "Clinic EMR & billing",
+      "kind": "System concept & documentation",
+      "art": "Care & administration",
+      "description": "A clinic workflow concept joining patient records, medicine dispensing and billing.",
+      "tags": ["EMR", "Workflow Design", "Documentation"],
+      "points": [
+        "Mapped doctor entry of patient details and treatment information.",
+        "Defined staff medicine dispensing and bill printing.",
+        "Prepared requirements and assumptions for implementation."
+      ],
+      "link": null
+    },
+    {
+      "name": "AWS Foundations sessions",
+      "kind": "Delivered college session",
+      "art": "Experience the cloud",
+      "description": "An interactive introduction helping students connect cloud concepts with live AWS demonstrations.",
+      "tags": ["Cloud Education", "S3 Hosting", "AWS"],
+      "points": [
+        "Delivered interactive cloud foundation sessions with practical demonstrations.",
+        "Demonstrated static website hosting on Amazon S3 and other AWS services.",
+        "Used practical examples to make cloud concepts easier to understand."
+      ],
+      "link": null
+    }
+  ],
+  "experience": [
+    {
+      "title": "Cloud Solution Architect & Cloud Trainer",
+      "label": "TekBay Academy",
+      "text": "Connect cloud architecture with practical learning. Train AWS SAA students through hands-on demonstrations and clear architecture explanations."
+    },
+    {
+      "title": "Training Assistant",
+      "label": "Adex International",
+      "text": "Selected for a training-focused role supporting technical education."
+    },
+    {
+      "title": "Full-stack Development Intern",
+      "label": "Techylads Solution Pvt. Ltd.",
+      "text": "Worked on DCart, spanning frontend features, backend integration and vendor workflows."
+    },
+    {
+      "title": "FlowGenic Technologies",
+      "label": "Development & automation initiative",
+      "text": "Explore practical software, workflow automation and communication."
+    },
+    {
+      "title": "Marketing Head",
+      "label": "Akshaya Med Pvt. Ltd. · Since 2020",
+      "text": "Experience in marketing communication and business promotion."
+    }
+  ],
+  "education": [
+    {
+      "title": "MBA",
+      "label": "Completed",
+      "text": "Business and management education that complements my technical approach."
+    },
+    {
+      "title": "BSc CSIT",
+      "label": "Completed",
+      "text": "A foundation in computer science, software development and information technology."
+    }
+  ],
+  "certifications": [
+    {
+      "title": "AWS Certified Solutions Architect - Associate",
+      "code": "SAA-C03",
+      "issuer": "Amazon Web Services",
+      "description": "Cloud solution architecture.",
+      "seal": "AWS"
+    },
+    {
+      "title": "NVIDIA Certified Associate - AI Infrastructure and Operations",
+      "code": "NCA-AIIO",
+      "issuer": "NVIDIA",
+      "description": "AI infrastructure and operations.",
+      "seal": "AI"
+    },
+    {
+      "title": "Digital Marketing",
+      "code": "",
+      "issuer": "Certification",
+      "description": "Digital communication, audience engagement and marketing.",
+      "seal": "DM"
+    },
+    {
+      "title": "Web Development",
+      "code": "",
+      "issuer": "Certification",
+      "description": "Building web experiences and applications.",
+      "seal": "WEB"
+    },
+    {
+      "title": "AWS Technical Accreditation",
+      "code": "",
+      "issuer": "Amazon Web Services",
+      "description": "AWS technical foundations and solution conversations.",
+      "seal": "TECH"
+    },
+    {
+      "title": "AWS Sales Accreditation",
+      "code": "",
+      "issuer": "Amazon Web Services",
+      "description": "Connecting cloud value with customer needs.",
+      "seal": "SALES"
+    }
+  ],
+  "architectures": [
+    {
+      "name": "Three-tier app",
+      "nodes": [
+        {
+          "name": "Browser",
+          "kind": "browser",
+          "position": [-2.8, 0, 0],
+          "description": "The frontend sends a request to the application’s public entry point."
+        },
+        {
+          "name": "ALB",
+          "kind": "router",
+          "position": [-1.35, 0, 0],
+          "description": "An Application Load Balancer routes traffic to the application tier."
+        },
+        {
+          "name": "EC2 · A",
+          "kind": "server",
+          "position": [0.35, 0, -0.85],
+          "description": "An application instance runs backend logic in a private subnet."
+        },
+        {
+          "name": "EC2 · B",
+          "kind": "server",
+          "position": [0.35, 0, 0.85],
+          "description": "A second instance illustrates how load can be distributed across the application tier."
+        },
+        {
+          "name": "RDS",
+          "kind": "database",
+          "position": [2.2, 0, 0],
+          "description": "The application accesses a relational database isolated from direct public traffic."
+        }
+      ],
+      "edges": [
+        [0, 1],
+        [1, 2],
+        [1, 3],
+        [2, 4],
+        [3, 4]
+      ],
+      "routes": [
+        [0, 1, 2, 4],
+        [0, 1, 3, 4]
+      ]
+    },
+    {
+      "name": "Image converter",
+      "nodes": [
+        {
+          "name": "JPG upload",
+          "kind": "browser",
+          "position": [-2.8, 0, 0],
+          "description": "A JPG image is uploaded to the source bucket."
+        },
+        {
+          "name": "Source S3",
+          "kind": "bucket",
+          "position": [-1.05, 0, 0],
+          "description": "Amazon S3 stores the JPG; an object-created event invokes the Lambda function."
+        },
+        {
+          "name": "Lambda",
+          "kind": "function",
+          "position": [0.65, 0, 0],
+          "description": "Python and Pillow convert the source image into a PNG."
+        },
+        {
+          "name": "PNG in S3",
+          "kind": "bucket",
+          "position": [2.35, 0, 0],
+          "description": "The converted PNG is written to a separate destination bucket."
+        }
+      ],
+      "edges": [
+        [0, 1],
+        [1, 2],
+        [2, 3]
+      ],
+      "routes": [[0, 1, 2, 3]]
+    },
+    {
+      "name": "Image analysis",
+      "nodes": [
+        {
+          "name": "Upload",
+          "kind": "browser",
+          "position": [-2.8, 0, 0],
+          "description": "The browser uploads an image through a presigned S3 URL."
+        },
+        {
+          "name": "S3",
+          "kind": "bucket",
+          "position": [-1.4, 0, 0],
+          "description": "Image storage provides the input for analysis."
+        },
+        {
+          "name": "Lambda",
+          "kind": "function",
+          "position": [0, 0, 0],
+          "description": "Backend logic coordinates analysis and persistence."
+        },
+        {
+          "name": "Rekognition",
+          "kind": "ai",
+          "position": [1.4, 0, -0.75],
+          "description": "Amazon Rekognition analyzes the image and returns labels with confidence values."
+        },
+        {
+          "name": "DynamoDB",
+          "kind": "database",
+          "position": [2.7, 0, 0.4],
+          "description": "A result-store concept persists analysis metadata for later retrieval."
+        }
+      ],
+      "edges": [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [3, 2],
+        [2, 4]
+      ],
+      "routes": [[0, 1, 2, 3, 2, 4]]
+    }
+  ]
+}

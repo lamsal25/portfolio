@@ -1,0 +1,1 @@
+http://localhost:8787/admin/setup/#token=3ba25b0ad7d4838fac166c66748bf99c70d47bb24f68727286b03af84b2236cf
