@@ -24,6 +24,8 @@ type AppEnv = {
   CONTAINER?: DurableObjectNamespace;
   HF_ENV?: string;
   APP_SLUG?: string;
+  RESEND_API_KEY?: string;
+  RESEND_FROM_EMAIL?: string;
 };
 
 export function bindings(): AppEnv {

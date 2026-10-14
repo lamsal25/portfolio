@@ -35,6 +35,19 @@ stored only as hashes in the database and sent in Secure, HttpOnly, SameSite=Str
 cookies with an eight-hour lifetime. Every private API validates the session.
 All mutations validate origin and input, and authentication/contact routes are limited.
 Changing your password revokes every existing session.
+Forgot-password emails use the Resend API. Configure the Worker secrets
+`RESEND_API_KEY` and `RESEND_FROM_EMAIL` with a Resend API key and a verified
+sender address before using password recovery. Reset links expire after 30
+minutes, work once, and changing the password revokes every active session.
+For local `wrangler dev`, put these values in the ignored `app/.dev.vars` file:
+
+```dotenv
+RESEND_API_KEY=re_your_api_key
+RESEND_FROM_EMAIL="Govinda Portfolio <verified@your-domain.com>"
+```
+
+For a deployed Worker, add each value as a Worker secret in the hosting
+environment. Never commit real keys or sender credentials.
 
 ## Inbox
 Messages include name, email, subject, body, time and status. Opening a new message

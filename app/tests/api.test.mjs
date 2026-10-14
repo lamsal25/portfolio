@@ -15,7 +15,7 @@ await writeFile(
     JSON.stringify(resolve("src/portfolio/api.server.ts")) +
     ";import {HttpError} from " +
     JSON.stringify(resolve("src/portfolio/auth.server.ts")) +
-    ";export default {async fetch(request,env){try{return await apiRoute(env.DB,request)}catch(e){return Response.json({error:e.message},{status:e instanceof HttpError?e.status:500})}}};",
+    ";export default {async fetch(request,env){globalThis.fetch=async(url,options)=>{if(String(url)!=='https://api.resend.com/emails')throw new Error('Unexpected outbound request');await env.DB.prepare('INSERT INTO test_email_log(body) VALUES(?)').bind(options.body).run();return Response.json({id:'test-email'})};try{return await apiRoute(env.DB,request,env)}catch(e){return Response.json({error:e.message},{status:e instanceof HttpError?e.status:500})}}};",
 );
 await build({
   entryPoints: [entry],
@@ -30,10 +30,15 @@ const mf = new Miniflare({
   scriptPath: bundle,
   compatibilityDate: "2025-05-01",
   d1Databases: ["DB"],
+  bindings: {
+    RESEND_API_KEY: "test-resend-key",
+    RESEND_FROM_EMAIL: "Portfolio <no-reply@example.com>",
+  },
 });
 try {
   const db = await mf.getD1Database("DB");
   const schema = await readFile("migrations/0002_portfolio_cms.sql", "utf8");
+  const resetSchema = await readFile("migrations/0003_password_reset.sql", "utf8");
   // Parse SQL statement boundaries without splitting semicolons in JSON strings.
   const statements = [];
   let current = "",
@@ -52,6 +57,14 @@ try {
     }
   }
   await db.batch(statements.map((s) => db.prepare(s)));
+  await db.batch(
+    resetSchema
+      .split(";")
+      .map((statement) => statement.trim())
+      .filter(Boolean)
+      .map((statement) => db.prepare(statement)),
+  );
+  await db.prepare("CREATE TABLE test_email_log(body TEXT NOT NULL)").run();
   const setup = "local-test-only-setup-token";
   await db
     .prepare("UPDATE portfolio_admin SET setup_hash=? WHERE id=1")
@@ -115,6 +128,49 @@ try {
     403,
   );
   assert.equal((await request("/api/auth/session", "GET", undefined, true)).status, 200);
+  const unknownEmail = await request("/api/auth/forgot-password", "POST", {
+    email: "unknown@example.com",
+  });
+  assert.equal(unknownEmail.status, 200);
+  assert.match((await unknownEmail.json()).message, /If this email belongs/);
+  assert.equal(await db.prepare("SELECT COUNT(*) AS count FROM test_email_log").first("count"), 0);
+  const resetEmail = await request("/api/auth/forgot-password", "POST", {
+    email: "lamsalgovinda25@gmail.com",
+  });
+  assert.equal(resetEmail.status, 200);
+  const mailBody = JSON.parse(
+    (await db.prepare("SELECT body FROM test_email_log").first()).body,
+  );
+  assert.deepEqual(mailBody.to, ["lamsalgovinda25@gmail.com"]);
+  assert.equal(mailBody.from, "Portfolio <no-reply@example.com>");
+  const resetUrl = mailBody.text.match(/https:\/\/portfolio\.test\/admin\/login\/#token=[a-f0-9]{64}/)?.[0];
+  assert.ok(resetUrl, "the email should include the one-time reset link");
+  const resetToken = new URL(resetUrl).hash.slice("#token=".length);
+  assert.equal(
+    (
+      await request("/api/auth/reset-password", "POST", {
+        token: resetToken,
+        password: "Another-strong-password-456",
+      })
+    ).status,
+    200,
+  );
+  assert.equal((await request("/api/auth/session", "GET", undefined, true)).status, 401);
+  assert.equal(
+    (
+      await request("/api/auth/reset-password", "POST", {
+        token: resetToken,
+        password: "Third-strong-password-789",
+      })
+    ).status,
+    400,
+  );
+  const resetLogin = await request("/api/auth/login", "POST", {
+    email: "lamsalgovinda25@gmail.com",
+    password: "Another-strong-password-456",
+  });
+  assert.equal(resetLogin.status, 200);
+  cookie = resetLogin.headers.get("set-cookie").split(";")[0];
   assert.equal(
     (
       await request("/api/auth/login", "POST", {
@@ -200,7 +256,7 @@ try {
   assert.equal((await request("/api/auth/logout", "POST", {}, true)).status, 200);
   assert.equal((await request("/api/auth/session", "GET", undefined, true)).status, 401);
   console.log(
-    "PASS: superadmin-only auth, one-time setup, CSRF, cookie security, private inbox, parameterized writes, draft publishing and logout.",
+    "PASS: superadmin auth, email password reset, one-time setup, CSRF, session revocation, private inbox and portfolio writes.",
   );
 } finally {
   await mf.dispose();

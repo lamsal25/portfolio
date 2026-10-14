@@ -18,7 +18,7 @@ export default {
         path = url.pathname;
       if (path.startsWith("/api/")) {
         if (!env.DB) throw new HttpError(503, "The database is not available yet.");
-        return secure(await apiRoute(env.DB, request), true);
+        return secure(await apiRoute(env.DB, request, env), true);
       }
       if (
         (path === "/dashboard" || path.startsWith("/dashboard/")) &&

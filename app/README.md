@@ -22,3 +22,9 @@ Production: `bun install && bun run build` from this directory.
 Database migrations are applied by hosting at deployment.
 The frontend expects a same-origin `/api` backend; see tests for a local D1 harness.
 No raw setup token, password or user session is committed to source.
+Password recovery sends a single-use, 30-minute reset link through Resend.
+Set the Worker secrets `RESEND_API_KEY` and `RESEND_FROM_EMAIL` to a Resend API
+key and verified sender address for the email to be delivered.
+For local `wrangler dev`, configure them in the ignored `app/.dev.vars` file;
+for deployment, add them as Worker secrets. See [next/README.md](next/README.md)
+for the local variable format.

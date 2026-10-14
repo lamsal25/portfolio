@@ -1,6 +1,7 @@
 import type { D1Database } from "@cloudflare/workers-types";
 import { HttpError, authRoute, requireAdmin, requireOrigin, rateLimit, body } from "./auth.server";
 import { contactSchema, recordSchema } from "./validation.server";
+type ApiEnv = { RESEND_API_KEY?: string; RESEND_FROM_EMAIL?: string };
 type Row = {
   id: string;
   collection: string;
@@ -13,11 +14,15 @@ const parseRow = (row: Row) => ({ ...row, data: JSON.parse(row.data) });
 function invalid(message: string): never {
   throw new HttpError(400, message);
 }
-export async function apiRoute(db: D1Database, request: Request): Promise<Response> {
+export async function apiRoute(
+  db: D1Database,
+  request: Request,
+  env: ApiEnv = {},
+): Promise<Response> {
   const url = new URL(request.url),
     path = url.pathname,
     method = request.method;
-  if (path.startsWith("/api/auth/")) return authRoute(db, request, path);
+  if (path.startsWith("/api/auth/")) return authRoute(db, request, path, env);
   if (path === "/api/content" && method === "GET") {
     const { results } = await db
       .prepare("SELECT * FROM portfolio_records WHERE published=1 ORDER BY position,id")

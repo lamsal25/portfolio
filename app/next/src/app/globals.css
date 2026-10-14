@@ -1181,16 +1181,39 @@ input[readonly] {
 }
 .auth-card > p {
   font-size: 14px;
+  line-height: 1.7;
+  margin: 0 0 18px;
 }
 .auth-card form {
   margin: 28px 0;
+}
+.auth-card form .error {
+  line-height: 1.6;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+.auth-card > .notice {
+  line-height: 1.6;
+  margin: 24px 0 0;
 }
 .auth-card input {
   background: var(--bg);
 }
 .auth-card .text-link {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   font-size: 13px;
+  line-height: 1.5;
+}
+.auth-card > .text-link {
+  margin-top: 20px;
+}
+.auth-mode-link {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--accent);
+  background: transparent;
+  margin-top: 16px;
 }
 .admin-primary {
   border: 0;

@@ -1,0 +1,23 @@
+{
+  "name": "govinda-portfolio",
+  "main": "src/server.ts",
+  "compatibility_date": "2025-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./next/out",
+    "binding": "ASSETS",
+    "not_found_handling": "none"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "govinda-portfolio-prod",
+      "database_id": "afc88da3-4112-4703-b21a-94276df294ea",
+      "migrations_dir": "migrations"
+    }
+  ]
+  
+}

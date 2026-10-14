@@ -9,6 +9,7 @@ export class HttpError extends Error {
 }
 export const COOKIE = "__Host-portfolio_session";
 export const ADMIN_EMAIL = "lamsalgovinda25@gmail.com";
+type MailConfig = { RESEND_API_KEY?: string; RESEND_FROM_EMAIL?: string };
 const encoder = new TextEncoder();
 export async function sha256(value: string) {
   return [...new Uint8Array(await crypto.subtle.digest("SHA-256", encoder.encode(value)))]
@@ -126,7 +127,12 @@ export function validPassword(value: unknown) {
     throw new HttpError(400, "Use a password between 12 and 128 characters.");
   return value;
 }
-export async function authRoute(db: D1Database, request: Request, path: string): Promise<Response> {
+export async function authRoute(
+  db: D1Database,
+  request: Request,
+  path: string,
+  mail: MailConfig = {},
+): Promise<Response> {
   if (path === "/api/auth/session" && request.method === "GET") {
     const admin = await session(db, request);
     if (!admin) throw new HttpError(401, "Superadmin login is required.");
@@ -136,6 +142,88 @@ export async function authRoute(db: D1Database, request: Request, path: string):
   requireOrigin(request);
   await rateLimit(db, request, "auth", 10, 900);
   const input = await body(request);
+  if (path === "/api/auth/forgot-password") {
+    await rateLimit(db, request, "password-reset", 3, 3600);
+    if (typeof input.email !== "string" || input.email.length > 200)
+      throw new HttpError(400, "Enter the registered email address.");
+    if (!mail.RESEND_API_KEY || !mail.RESEND_FROM_EMAIL)
+      throw new HttpError(
+        503,
+        "Password reset email is not configured. Set RESEND_API_KEY and RESEND_FROM_EMAIL for the Worker, then try again.",
+      );
+    const admin = await db
+      .prepare("SELECT email,password_hash FROM portfolio_admin WHERE id=1 AND email=?")
+      .bind(input.email)
+      .first<{ email: string; password_hash: string | null }>();
+    if (admin?.password_hash) {
+      const token = randomToken(),
+        tokenHash = await sha256(token),
+        expiresAt = Math.floor(Date.now() / 1000) + 1800;
+      await db
+        .prepare("UPDATE portfolio_admin SET reset_hash=?,reset_expires_at=? WHERE id=1")
+        .bind(tokenHash, expiresAt)
+        .run();
+      const resetUrl = new URL("/admin/login/", request.url);
+      resetUrl.hash = "token=" + token;
+      try {
+        const response = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + mail.RESEND_API_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: mail.RESEND_FROM_EMAIL,
+            to: [admin.email],
+            subject: "Reset your Govinda Portfolio admin password",
+            text:
+              "Use this one-time link within 30 minutes to reset your admin password:\n\n" +
+              resetUrl.href +
+              "\n\nIf you did not request this, you can ignore this email.",
+          }),
+        });
+        if (!response.ok) throw new Error("Email provider rejected the request.");
+      } catch {
+        await db
+          .prepare("UPDATE portfolio_admin SET reset_hash=NULL,reset_expires_at=NULL WHERE id=1 AND reset_hash=?")
+          .bind(tokenHash)
+          .run();
+        throw new HttpError(502, "The password reset email could not be sent. Please try again later.");
+      }
+    }
+    return Response.json({
+      ok: true,
+      message: "If this email belongs to the superadmin account, a password reset link has been sent.",
+    });
+  }
+  if (path === "/api/auth/reset-password") {
+    if (typeof input.token !== "string" || !/^[a-f0-9]{64}$/.test(input.token))
+      throw new HttpError(400, "This password reset link is invalid or has expired.");
+    const tokenHash = await sha256(input.token),
+      now = Math.floor(Date.now() / 1000),
+      admin = await db
+        .prepare("SELECT reset_hash,reset_expires_at FROM portfolio_admin WHERE id=1")
+        .first<{ reset_hash: string | null; reset_expires_at: number | null }>();
+    if (
+      !admin?.reset_hash ||
+      !admin.reset_expires_at ||
+      admin.reset_expires_at <= now ||
+      !secureEqual(tokenHash, admin.reset_hash)
+    )
+      throw new HttpError(400, "This password reset link is invalid or has expired.");
+    const password = validPassword(input.password),
+      salt = randomToken(),
+      result = await db
+        .prepare(
+          "UPDATE portfolio_admin SET password_hash=?,salt=?,reset_hash=NULL,reset_expires_at=NULL WHERE id=1 AND reset_hash=? AND reset_expires_at>?",
+        )
+        .bind(await passwordHash(password, salt), salt, tokenHash, now)
+        .run();
+    if (!result.meta.changes)
+      throw new HttpError(400, "This password reset link is invalid or has expired.");
+    await db.prepare("DELETE FROM portfolio_sessions WHERE admin_id=1").run();
+    return Response.json({ ok: true });
+  }
   if (path === "/api/auth/setup") {
     if (input.email !== ADMIN_EMAIL || typeof input.token !== "string" || input.token.length > 100)
       throw new HttpError(403, "The setup link is invalid or has already been used.");
